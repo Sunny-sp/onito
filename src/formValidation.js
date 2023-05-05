@@ -17,7 +17,6 @@ export const userSchema = yup.object({
             return true;
         }
     }).test('test-date-of-birth', 'Date must be in format dd/mm/yyyy', (value) => {
-        // const reg = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
         if(value.length > 2){
             return moment(value, 'DD/MM/YYYY').isValid();
         }
@@ -48,7 +47,7 @@ export const userSchema = yup.object({
         then: () => yup.string().when('govtIdType', {
             is: govtIdType => govtIdType === 'Aadhar',
             then: () => yup.string().required('please provide Aadhar!').matches(/^[0-9]{4}\s{1}[0-9]{4}\s{1}[0-9]{4}$/, 'Please provide Aadhar in format (xxxx xxxx xxxx)').matches(/^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/, 'Please provide valid Aadhar'),
-            otherwise: () => yup.string().required('Please provide Pan Id!').matches(/^[A-Z0-9]*$/, 'Please provide valid Pan Id!').min(10, 'Please provide valid Pan Id!').max(10, 'Please provide valid Pan Id!'),
+            otherwise: () => yup.string().required('Please provide Pan Id!').matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Please provide valid Pan Id!').min(10, 'Please provide valid Pan Id!').max(10, 'Please provide valid Pan Id!'),
         }),
         otherwise: () => yup.string().optional().nullable()
     })
